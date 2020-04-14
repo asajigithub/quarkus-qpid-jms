@@ -55,6 +55,31 @@ jobs:
 
           # perform actual test run
           cd current-repo
+
+          # check the test script
+          if [ -f .github/test ]; then
+              echo "Test script found"
+          else
+              echo "Test script not found - using default from quarkus-ecosystem-ci"
+              cp ../ecosystem-ci/default-test .github/test
+          fi
+
+          # check the report script
+          if [ -f .github/report.java ]; then
+              echo "Report script found"
+          else
+              echo "Report script not found - using default from quarkus-ecosystem-ci"
+              cp ../ecosystem-ci/default-report.java .github/report.java
+          fi
+
+          # check the Maven settings file
+          if [ -f .github/mvn-settings.xml ]; then
+              echo "Maven settings file found"
+          else
+              echo "Maven settings file not found - using default from quarkus-ecosystem-ci"
+              cp ../ecosystem-ci/default-maven-settings.xml .github/mvn-settings.xml
+          fi
+
           if QUARKUS_VERSION=${QUARKUS_VERSION} .github/test ; then
             echo "Tests succeded"
             TEST_STATUS="success"
